@@ -1,0 +1,20 @@
+{
+  "name": "devtinder",
+  "version": "1.0.0",
+  "description": "A app to connect with other developers",
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "reactjs"
+  ],
+  "license": "ISC",
+  "author": "Mobasshir Hussain",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
