@@ -6,6 +6,10 @@ app.listen(7777)
 app.use(("/test"),function(req,res){
     res.send("hello! server is running on port 7777")
 })
-app.use((req,res)=>{
-res.send("homepage .................")
+app.get(("/user"),(req,res)=>{
+    res.send({firstName:"Mobasshir",lastName:"Hussain"})
+})
+app.post(("/user"),(req,res)=>{
+    // saving data in DB
+    res.send("Data saved successfully")
 })
