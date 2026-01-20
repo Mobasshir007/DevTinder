@@ -4,9 +4,65 @@ const userModel = require("./models/users");
 const app = express();
 
 app.use(express.json());
+
+// to find data by email
+app.get("/finduser", async (req, res) => {
+  const getemail = req.body.email;
+ 
+
+  try {
+    const getUser = await userModel.find({ email: getemail });
+    if (getUser.length === 0) {
+      res.status(404).send("Data not found");
+    } else {
+      res.send(getUser);
+    }
+  } catch (error) {
+    res.status(400).send("Something went wrong in adding data");
+  }
+});
+
+// to find one data
+app.get(("/findOne"),async (req,res)=>{
+  const findOneEmail=req.body.email;
+  try {
+    const getOne=await userModel.findOne({email:findOneEmail})
+ if (getOne.length === 0) {
+      res.status(404).send("Data not found");
+    } else {
+      res.send(getOne);
+    }
+  } catch (error) {
+    res.status(400).send("Something went wrong in adding data");
+  }
+})
+// homework =  find data by id 
+app.get(("/findbyId"), async (req,res)=>{
+  const findbyId=req.body._id
+  try {
+     const getId=await userModel.find({_id:findbyId})
+     if(getId.length===0){
+   res.status(404).send("Data not found by id");
+    } else {
+      res.send(getId);
+    }
+  } catch (error) {
+    res.status(400).send("Something went wrong in adding data");
+  }
+})
+
+// feed- to get all data
+app.get("/feed", async (req, res) => {
+  try {
+    const feed = await userModel.find({});
+    res.send(feed);
+  } catch (error) {
+    res.status(400).send("Something went wrong in adding data");
+  }
+});
 app.post("/signup", async (req, res) => {
   console.log(req.body);
-  
+
   const user = new userModel(req.body);
   try {
     await user.save();
