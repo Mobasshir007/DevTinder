@@ -75,6 +75,22 @@ app.delete(("/users"), async (req,res)=>{
     res.status(400).send("Something went wrong in adding data");
   }
 }) 
+
+// Find by Id and update
+app.patch("/users",async(req,res)=>{
+  const id=req.body;
+  try{
+    const updateData=await userModel.findByIdAndUpdate(id)
+    if(updateData.length===0){
+      res.status(401).send("Data not found")
+    }else{
+      res.send(updateData)
+    }
+  } catch (error) {
+    res.status(400).send("Something went wrong in adding data");
+  }
+  
+})
 app.post("/signup", async (req, res) => {
   console.log(req.body);
 
@@ -83,7 +99,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User added successfully");
   } catch (err) {
-    res.status(400).res.send("SOmething went wrong in adding data");
+    res.status(400).send("SOmething went wrong in adding data");
   }
 });
 
