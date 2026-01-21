@@ -4,7 +4,7 @@ const userModel = require("./models/users");
 const app = express();
 
 app.use(express.json());
-
+console.log("server started")
 // to find data by email
 app.get("/finduser", async (req, res) => {
   const getemail = req.body.email;
@@ -36,8 +36,8 @@ app.get(("/findOne"),async (req,res)=>{
     res.status(400).send("Something went wrong in adding data");
   }
 })
-// homework =  find data by id 
-app.get(("/findbyId"), async (req,res)=>{
+// homework =  find data by id  
+app.get("/findbyId", async (req,res)=>{
   const findbyId=req.body._id
   try {
      const getId=await userModel.find({_id:findbyId})
@@ -52,7 +52,7 @@ app.get(("/findbyId"), async (req,res)=>{
 })
 
 // feed- to get all data
-app.get("/feed", async (req, res) => {
+app.get(("/feed"), async (req, res) => {
   try {
     const feed = await userModel.find({});
     res.send(feed);
@@ -60,6 +60,21 @@ app.get("/feed", async (req, res) => {
     res.status(400).send("Something went wrong in adding data");
   }
 });
+
+//  find Id and Delete data from db
+app.delete(("/users"), async (req,res)=>{
+  const data=req.body._id
+  try{
+    const deletedData=await userModel.findByIdAndDelete({_id:data})
+    if(deletedData.length===0){
+      res.status(401).send("Data not found")
+    }else{
+      res.send(deletedData)
+    }
+  } catch (error) {
+    res.status(400).send("Something went wrong in adding data");
+  }
+}) 
 app.post("/signup", async (req, res) => {
   console.log(req.body);
 
