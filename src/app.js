@@ -110,11 +110,12 @@ app.post("/signup", async (req, res) => {
 
   const user = new userModel(req.body);
   try {
-    
+
     await user.save();
     res.send("User added successfully");
   } catch (err) {
-    res.status(400).send("SOmething went wrong in adding data");
+    
+    res.status(400).send("SOmething went wrong in adding data"+err);
   }
 });
 
