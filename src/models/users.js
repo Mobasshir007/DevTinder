@@ -28,6 +28,11 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
+     validate(value ){
+      if(!["male","female"].includes(value)){
+        throw new Error ("Please enter valid gender")
+      }
+     }
     },
     photoUrl: {
       type: String,

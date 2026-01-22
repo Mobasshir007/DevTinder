@@ -77,17 +77,31 @@ app.delete(("/users"), async (req,res)=>{
 }) 
 
 // Find by Id and update
-app.patch("/users",async(req,res)=>{
-  const id=req.body;
+app.patch("/users/:_id",async(req,res)=>{
+  const id=req.params._id;
+  const data=req.body;
   try{
-    const updateData=await userModel.findByIdAndUpdate(id)
-    if(updateData.length===0){
-      res.status(401).send("Data not found")
-    }else{
-      res.send(updateData)
+    const ALLOWED_UPDATES=["photoUrl","skill","about"]
+    const isAllowed=Object.keys(data).every(
+      (k)=>ALLOWED_UPDATES.includes(k)
+    )
+    console.log(isAllowed)
+    if(!isAllowed){
+      throw new Error("Update not allowed")
     }
+    if(data?.skill.length>5){
+      throw new Error("Skill cannot be more than 5")
+    }
+    
+    const updateData=await userModel.findByIdAndUpdate(id,data,{
+      returnDocument:"after",
+    runValidators:true
+    })
+   console.log(updateData);
+   res.send("User updated successfully")
+   
   } catch (error) {
-    res.status(400).send("Something went wrong in adding data");
+    res.status(400).send("UPDATE_FAILED"+ error.message);
   }
   
 })
@@ -96,6 +110,7 @@ app.post("/signup", async (req, res) => {
 
   const user = new userModel(req.body);
   try {
+    
     await user.save();
     res.send("User added successfully");
   } catch (err) {
