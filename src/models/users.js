@@ -31,6 +31,7 @@ const userSchema = new Schema(
     },
     age: {
       type: Number,
+      min:[18,"Age must be 18"]
     },
     gender: {
       type: String,
