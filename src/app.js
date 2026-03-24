@@ -9,7 +9,6 @@ console.log("server started")
 app.get("/finduser", async (req, res) => {
   const getemail = req.body.email;
  
-
   try {
     const getUser = await userModel.find({ email: getemail });
     if (getUser.length === 0) {
